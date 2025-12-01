@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxLabelFile xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SRC_LabelFile_en-US</Name>
+	<LabelContentFileName>SRC_LabelFile.en-US.label.txt</LabelContentFileName>
+	<LabelFileId>SRC_LabelFile</LabelFileId>
+	<RelativeUriInModelStore>SRCStudentManagement\SRCStudentManagement\AxLabelFile\LabelResources\en-US\SRC_LabelFile.en-US.label.txt</RelativeUriInModelStore>
+</AxLabelFile>

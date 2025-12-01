@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxEdtString">
+	<Name>SRC_StudentRegNum</Name>
+	<Label>@SRC_LabelFile:StudentRegisterNum</Label>
+	<ArrayElements />
+	<Relations />
+	<TableReferences />
+</AxEdt>

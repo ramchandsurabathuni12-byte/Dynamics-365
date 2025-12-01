@@ -1,0 +1,7 @@
+1. GroupTables
+
+Group table is used as a foreign key on main table, such as the Customer group on the customer table and the vendor group on vendor table.
+
+The customer and vendor tables are examples of main tables.
+
+Group tables have atleast 2 fields, and ID and a description field but can contain more if required.

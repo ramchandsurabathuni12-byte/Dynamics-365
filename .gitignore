@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/**/**
+*.wsuo
+/Projects/**/.vs/**/*
+/Projects/**/obj/**/*
+/SRC/XppMetadata/SRC/**/*
