@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxEdtDate">
+	<Name>SRC_StudentJoiningDate</Name>
+	<Extends>TransDate</Extends>
+	<Label>@SRC_LabelFile:StudentJoiningDate</Label>
+	<ArrayElements />
+	<Relations />
+	<TableReferences />
+</AxEdt>
