@@ -2,7 +2,8 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/Dynamics-365/FileContentIndex
+/.vs/**/**
 *.wsuo
-/.vs/Dynamics-365/v17/DocumentLayout.json
-/.vs
+/Projects/**/.vs/**/*
+/Projects/**/obj/**/*
+/SRC/XppMetadata/SRC/**/*
