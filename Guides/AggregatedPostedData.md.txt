@@ -1,0 +1,19 @@
+To create Aggregated daily posted data
+
+1.we need to create the following classes
+  > **Contract class
+  > **Service  class
+  > **Controller class
+  > **Azure stroge helper
+2.Need to create one action menu item
+3.need to create extension for menu item and should add this action menu item to the menu item.
+
+4. To create Action Menu item 
+   >> Right Click on the Project 
+   >> Add >> New item >> Action Menu Item >> create a name as required 
+   >> go to properties >>  Add Label 
+                       >> properties Object type - Class   
+                       >> properties object >> slect the controller class >> save it.
+5. To extend the Menu item >> Go to AOT >> slect the menu item create extension to project >> Open MenuItem >>    Periodic Tasks >> Drag and Drop the Action menu item to the Path.>> properties >> Menu Item  type -Action
+                                                                                  >> Name  -
+                                                                                  >> Menu item name -

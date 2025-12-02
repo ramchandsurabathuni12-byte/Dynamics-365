@@ -1,0 +1,18 @@
+To Export and Import Files 
+
+1.In the LSC page 
+
+
+ To Export file
+
+ >> Go to modules >> System Admistration >> Data Management >>
+   Export >> Add the Data entity and and file name >> when the file is exported >> download file (use the filter        option  to retriew only some records) and open the file in the excel add the data to the custom fields that       created by you save the file.
+ To import file
+
+ >> Go to modules >> System adminstration >> data mangement >>
+    import >> add the file name and entity and select type of file >>
+    when it is successed with importing.
+ >> Go to moudles >> general ledger >> Journal entries >> general journals >> 
+    select the record by using the option "created by user " >> click on it and verify all the data is visible or     not on the both headers and linews level.
+ >> If the data is not available please make sure that the mapping is correct and if not use the modify target and     match the mappings.
+ >> when the data is correct >> post it >> by clicking the  post button at the top .
