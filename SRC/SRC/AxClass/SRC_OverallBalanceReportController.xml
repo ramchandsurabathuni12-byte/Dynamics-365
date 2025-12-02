@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SRC_OverallBalanceReportController</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+internal final class SRC_OverallBalanceReportcontroller extends SysOperationServiceController
+{
+
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>main</Name>
+				<Source><![CDATA[
+    public static void main(Args _args)
+    {
+        SRC_OverallBalanceReportcontroller controller;
+
+        controller = new SRC_OverallBalanceReportcontroller(classStr(SRC_OverallBalanceReportService),
+            methodStr(SRC_OverallBalanceReportService, generateReport),
+            SysOperationExecutionMode::Asynchronous);
+
+        controller.parmDialogCaption("@SRC_LabelFile:OverallBalanceReport");
+        controller.startOperation();
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>description</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// description of the class
+    /// </summary>
+    /// <returns>description of the class</returns>
+    static ClassDescription description()
+    {
+        return "@SRC_LabelFile:OverallBalanceReport";
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>caption</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns></returns>
+    public ClassDescription caption()
+    {
+        return "@SRC_LabelFile:OverallBalanceReport";
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

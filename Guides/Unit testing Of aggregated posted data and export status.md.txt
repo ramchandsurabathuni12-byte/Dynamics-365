@@ -1,0 +1,7 @@
+Unittest for AggregatedPostedData and Export Status and File Export
+
+1.Go to LCS page >> Periodic Tasks >> NSI >> AggregatedPosteddata >> when the page appears check the details and     click "OK" button >> 
+2. Go to LSC page >> periodic Tasks >> NSI >> ExportStatus and Verify the CSV.file is created or not 
+3. we need to check the data is available at all the Parametrs.
+4.Go to Microsoft azure page >> storagr accounts >> Select File name >> Blob Containers >> Balanced report to afah     >> incoming >> select the file >> download file.
+5.The downloaded file contains the Data. 

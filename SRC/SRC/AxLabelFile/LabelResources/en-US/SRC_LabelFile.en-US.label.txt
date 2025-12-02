@@ -1,5 +1,6 @@
 ﻿NewLabel0=Label files created on 11/29/2025 14:50:47 for label file Id SRC_LabelFile and language en-US
  ;Label file comment - see above label
+OverallBalanceReport=Overall Balance Report
 StudentGroup=Student Group
 StudentId=Student Id
 StudentJoiningDate=Joining Date

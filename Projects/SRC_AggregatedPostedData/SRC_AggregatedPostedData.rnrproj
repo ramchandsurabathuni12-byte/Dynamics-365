@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <BuildTasksDirectory Condition=" '$(BuildTasksDirectory)' == ''">$(MSBuildProgramFiles32)\MSBuild\Microsoft\Dynamics\AX</BuildTasksDirectory>
+    <Model>SRC</Model>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <OutputPath>bin</OutputPath>
+    <SchemaVersion>2.0</SchemaVersion>
+    <GenerateCrossReferences>True</GenerateCrossReferences>
+    <RunAppCheckerRules>False</RunAppCheckerRules>
+    <LogAppcheckerDiagsAsErrors>False</LogAppcheckerDiagsAsErrors>
+    <DeployOnline>False</DeployOnline>
+    <ProjectGuid>{9d41de83-6dd9-417d-90f2-22e7c4c95135}</ProjectGuid>
+    <Name>SRC_AggregatedPostedData</Name>
+    <RootNamespace>SRC_AggregatedPostedData</RootNamespace>
+    <StartupType>Class</StartupType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Configuration>Debug</Configuration>
+    <DBSyncInBuild>True</DBSyncInBuild>
+    <GenerateFormAdaptors>False</GenerateFormAdaptors>
+    <Company>
+    </Company>
+    <Partition>initial</Partition>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DataEntityExpandParentChildRelations>False</DataEntityExpandParentChildRelations>
+    <DataEntityUseLabelTextAsFieldName>False</DataEntityUseLabelTextAsFieldName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Action Menu Items\" />
+    <Folder Include="Classes\" />
+    <Folder Include="Label Files\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AxClass\SRC_AzureStorageHelper">
+      <SubType>Content</SubType>
+      <Name>SRC_AzureStorageHelper</Name>
+      <Link>Classes\SRC_AzureStorageHelper</Link>
+    </Content>
+    <Content Include="AxClass\SRC_OverallBalanceReportContract">
+      <SubType>Content</SubType>
+      <Name>SRC_OverallBalanceReportContract</Name>
+      <Link>Classes\SRC_OverallBalanceReportContract</Link>
+    </Content>
+    <Content Include="AxClass\SRC_OverallBalanceReportController">
+      <SubType>Content</SubType>
+      <Name>SRC_OverallBalanceReportController</Name>
+      <Link>Classes\SRC_OverallBalanceReportController</Link>
+    </Content>
+    <Content Include="AxClass\SRC_OverallBalanceReportService">
+      <SubType>Content</SubType>
+      <Name>SRC_OverallBalanceReportService</Name>
+      <Link>Classes\SRC_OverallBalanceReportService</Link>
+    </Content>
+    <Content Include="AxLabelFile\SRC_LabelFile_en-US">
+      <SubType>Content</SubType>
+      <Name>SRC_LabelFile_en-US</Name>
+      <Link>Label Files\SRC_LabelFile_en-US</Link>
+    </Content>
+    <Content Include="AxMenuItemAction\SRC_OverallBalanceReport">
+      <SubType>Content</SubType>
+      <Name>SRC_OverallBalanceReport</Name>
+      <Link>Action Menu Items\SRC_OverallBalanceReport</Link>
+    </Content>
+    <Content Include="SRC_LabelFile.en-US.label.txt">
+      <SubType>Content</SubType>
+      <Name>SRC_LabelFile.en-US.label.txt</Name>
+      <DependentUpon>AxLabelFile\SRC_LabelFile_en-US</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.17.0.targets" />
+</Project>

@@ -1,0 +1,5 @@
+1.In visual studio go to git chnages at right bottom 
+2.click the git changes >> write a decription of development with user story and click on the Commit all button >>   commits locally
+3.next view commit all >> push to dev >> when push is completed >> go to dev >> repoes >> branches and at top it   popup with the latest updated one 
+4.Click on create pull request button >> write your description and tag your user stories and mention the reviewer   and create a pull request.
+5. make sure after pull request there is no any of the merge conflicts when the code is pushed to git hub. 

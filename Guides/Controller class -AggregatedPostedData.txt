@@ -1,0 +1,34 @@
+internal final class NSI_OverallBalanceReportcontroller extends SysOperationServiceController
+{
+
+    public static void main(Args _args)
+    {
+        NSI_OverallBalanceReportcontroller controller;
+
+        controller = new NSI_OverallBalanceReportcontroller(classStr(NSI_OverallBalanceReportService),
+            methodStr(NSI_OverallBalanceReportService, generateReport),
+            SysOperationExecutionMode::Asynchronous);
+
+        controller.parmDialogCaption("@NSI:Aggregatedposteddata");
+        controller.startOperation();
+    }
+
+    /// <summary>
+    /// description of the class
+    /// </summary>
+    /// <returns>description of the class</returns>
+    static ClassDescription description()
+    {
+        return "@NSI:Aggregatedposteddata";
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns></returns>
+    public ClassDescription caption()
+    {
+        return "@NSI:Aggregatedposteddata";
+    }
+
+}

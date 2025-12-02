@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>SRC_AzureStorageHelper</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+internal final class SRC_AzureStorageHelper
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>uploadBlob</Name>
+				<Source><![CDATA[
+    public static str uploadBlob( System.Text.StringBuilder _csvContent, str _keyvaultCertificateApp, str _keyvaultCertificateSecret, str _keyvaultCertificateStorage)
+    {
+        KeyVaultCertificateTable        kvAzureStorage;
+        KeyVaultCertificateTable        kvAppID;
+        KeyVaultCertificateTable        kvAppSecret;
+        str                             appid, appSecret,storageName, containerName;
+        str                             containerFolder, blobName, tokenUrl, blobAPIURL, scope;
+        utcdatetime                     nowDateTime;
+        str                             dateHeader, fileDateStrFormatted, uploadURL, body, accessToken;
+        str                             authTokenheader, headerDateTimeStr, storageVersion, strCSVContent;
+        NSI_IntegrationParametersTable  integrationParameters;
+        
+        System.Net.HttpWebRequest       webrequestToken;
+        System.Net.HttpWebResponse      webresponseToken;
+        System.Net.WebHeaderCollection  headers;
+       
+        #DEFINE.POST('POST')
+        #DEFINE.ContentType('application/x-www-form-urlencoded')
+        #DEFINE.AccessToken('access_token')
+        #DEFINE.PUT('PUT')
+        #DEFINE.TEXTCSV('text/csv')
+        #DEFINE.AuthBearer('Authorization: Bearer')
+        #DEFINE.BlobTypeASBlockBlob("x-ms-blob-type: BlockBlob")
+        #DEFINE.DateFormatR('R')
+        #DEFINE.AzureBlobVersion('x-ms-version: ')
+        #DEFINE.RequestHeaderDate('x-ms-date: ')
+        
+        try
+        {
+            integrationParameters = NSI_IntegrationParametersTable::find(false);
+            new InteropPermission(InteropKind::ClrInterop).assert();
+
+            
+            kvAppID = KeyVaultCertificateTable::findByName(_keyvaultCertificateApp);
+            kvAppSecret = KeyVaultCertificateTable::findByName(_keyvaultCertificateSecret);
+            kvAzureStorage = KeyVaultCertificateTable::findByName(_keyvaultCertificateStorage);
+
+            if (kvAppID)
+            {
+                appid = KeyVaultCertificateHelper::getManualSecretValue (kvAppID.RecId);
+            }
+            if (kvAppSecret)
+            {
+                appSecret = KeyVaultCertificateHelper::getManualSecretValue (kvAppSecret.RecId);
+            }
+            if (kvAzureStorage)
+            {
+                storageName = KeyVaultCertificateHelper::getManualSecretValue (kvAzureStorage.RecId);
+            }
+
+            containerName = integrationParameters.NSI_ContainerNameAggregatedReport;
+            containerFolder = integrationParameters.NSI_BlobFolderPathAggregatedReport;
+            blobName = integrationParameters.NSI_FileNameFormatAggregatedReport+".csv";
+            tokenUrl = integrationParameters.NSI_AzureAuthTokenAPI;
+            blobAPIURL = integrationParameters.NSI_AzureStorageAPI;
+            scope =  integrationParameters.NSI_AzureStorageScope;
+            
+            nowDateTime = DateTimeUtil::utcNow();
+            dateHeader = DateTimeUtil::toStr(nowDateTime);
+            fileDateStrFormatted = dateHeader;
+            fileDateStrFormatted= strReplace(fileDateStrFormatted, "@NSI:Slash", "");
+            fileDateStrFormatted = strReplace(fileDateStrFormatted, "@NSI:Colon", "");
+            fileDateStrFormatted = strReplace(fileDateStrFormatted, " ", "@SYS136211");
+            ;
+            
+            uploadURL = strFmt(
+                "https://%1.%5/%2/%3/%4",
+                storageName,
+                containerName,
+                containerFolder,
+                blobName,
+                blobAPIURL);
+            
+
+            body = strFmt(
+                    "client_id=%1&scope=%2&client_secret=%3&grant_type=client_credentials",
+                    System.Web.HttpUtility::UrlEncode(appid),
+                    scope,
+                    appsecret);
+            
+            webrequestToken = System.Net.WebRequest::Create(tokenUrl);
+            webrequestToken.Method = #POST;
+            webrequestToken.ContentType = #ContentType;
+        
+            System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+            System.Byte[] bytes = encoding.GetBytes(body);
+            webrequestToken.ContentLength = bytes.Length;
+            System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(webrequestToken.GetRequestStream());
+            streamWriter.Write(body);
+            streamWriter.Flush();
+            streamWriter.Close();
+
+            webresponseToken = webrequestToken.GetResponse();
+        
+            System.IO.Stream responseStream = webresponseToken.GetResponseStream();
+            System.IO.StreamReader reader = new System.IO.StreamReader(responseStream);
+            str responseText = reader.ReadToEnd();
+
+            reader.Close();
+            webresponseToken.Close();
+        
+            Newtonsoft.Json.Linq.JObject jObj = Newtonsoft.Json.Linq.JObject::Parse(responseText);
+       
+            
+            accessToken = jObj.GetValue(#AccessToken).ToString();
+            if (accessToken)
+            {
+                System.Net.HttpWebRequest uploadRequest = System.Net.WebRequest::Create(uploadURL);
+                uploadRequest.Method = #PUT;
+                uploadRequest.ContentType = #TEXTCSV;
+                headers = new System.Net.WebHeaderCollection();
+                authTokenheader = #AuthBearer + " " + accessToken;
+                headers.Add(authTokenheader);
+                headers.Add(#BlobTypeASBlockBlob);
+            
+
+                System.DateTime headerDateTime = System.DateTime::UtcNow;
+                headerDateTimeStr = headerDateTime.ToString(#DateFormatR);
+                storageVersion = #AzureBlobVersion + integrationParameters.NSI_AzureStorageVersion;
+                headers.Add(storageVersion);
+                dateHeader = #RequestHeaderDate + headerDateTimeStr;
+                headers.Add(dateHeader);
+                
+                uploadRequest.set_headers(headers);
+                uploadRequest.set_method(#PUT);
+                uploadRequest.set_ContentType(#TEXTCSV);
+
+                System.Text.UTF8Encoding encodingUpload = new System.Text.UTF8Encoding();
+                strCSVContent = _csvContent.ToString();
+                System.Byte[] contentBytes = encodingUpload.GetBytes(strCSVContent);
+                int contentLength = contentBytes.get_Length();
+          
+                uploadRequest.ContentLength =contentLength;
+                System.IO.Stream reqStream = uploadRequest.GetRequestStream();
+           
+                reqStream.Write(contentBytes, 0, contentLength);
+                reqStream.Close();
+            
+                System.Net.HttpWebResponse uploadResponse;
+
+                uploadResponse = uploadRequest.GetResponse();
+
+                info (strFmt("@NSI:BlobUploaded", blobName));
+            
+                uploadResponse.Close();
+            }
+                
+            
+            CodeAccessPermission::revertAssert();
+
+            return blobName;
+        }
+        catch (Exception::CLRError)
+        {
+            System.Net.WebException webEx = CLRInterop::getLastException() as System.Net.WebException;
+
+            if (webEx)
+            {
+                System.Net.HttpWebResponse resp = webEx.Response as System.Net.HttpWebResponse;
+
+                if (resp)
+                {
+                    System.IO.StreamReader errReader = new System.IO.StreamReader (resp.GetResponseStream());
+                    str errText = errReader.ReadToEnd();
+                    errReader.Close();
+                    info (errText);
+                }
+                else
+                {
+                    info (webEx.get_Message());
+                }
+            }
+            return "@NSI:BlobNotUploaded";
+        }
+
+        catch
+        {
+         
+            return "@NSI:BlobNotUploaded";
+        }
+       
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>uploadBlobV2</Name>
+				<Source><![CDATA[
+    public static str uploadBlobV2(System.Text.StringBuilder _csvContent, str _keyvaultCertificateApp, str _keyvaultCertificateSecret, str _keyvaultCertificateStorage, str _containerName, str _fileName, str _containerFolderName)
+    {
+        KeyVaultCertificateTable        kvAzureStorage;
+        KeyVaultCertificateTable        kvAppID;
+        KeyVaultCertificateTable        kvAppSecret;
+        str                             appid, appSecret,storageName, blobName;
+        str                             tokenUrl, blobAPIURL, scope;
+        utcdatetime                     nowDateTime;
+        str                             dateHeader, fileDateStrFormatted, uploadURL, body, accessToken;
+        str                             authTokenheader, headerDateTimeStr, storageVersion, strCSVContent;
+        NSI_IntegrationParametersTable  integrationParameters;
+        
+        System.Net.HttpWebRequest       webrequestToken;
+        System.Net.HttpWebResponse      webresponseToken;
+        System.Net.WebHeaderCollection  headers;
+       
+        #DEFINE.POST('POST')
+        #DEFINE.ContentType('application/x-www-form-urlencoded')
+        #DEFINE.AccessToken('access_token')
+        #DEFINE.PUT('PUT')
+        #DEFINE.TEXTCSV('text/csv')
+        #DEFINE.AuthBearer('Authorization: Bearer')
+        #DEFINE.BlobTypeASBlockBlob("x-ms-blob-type: BlockBlob")
+        #DEFINE.DateFormatR('R')
+        #DEFINE.AzureBlobVersion('x-ms-version: ')
+        #DEFINE.RequestHeaderDate('x-ms-date: ')
+        
+        try
+        {
+            integrationParameters = NSI_IntegrationParametersTable::find(false);
+            new InteropPermission(InteropKind::ClrInterop).assert();
+
+            
+            kvAppID = KeyVaultCertificateTable::findByName(_keyvaultCertificateApp);
+            kvAppSecret = KeyVaultCertificateTable::findByName(_keyvaultCertificateSecret);
+            kvAzureStorage = KeyVaultCertificateTable::findByName(_keyvaultCertificateStorage);
+
+            if (kvAppID)
+            {
+                appid = KeyVaultCertificateHelper::getManualSecretValue (kvAppID.RecId);
+            }
+            if (kvAppSecret)
+            {
+                appSecret = KeyVaultCertificateHelper::getManualSecretValue (kvAppSecret.RecId);
+            }
+            if (kvAzureStorage)
+            {
+                storageName = KeyVaultCertificateHelper::getManualSecretValue (kvAzureStorage.RecId);
+            }
+
+            blobName = _fileName+ '.csv';
+            tokenUrl = integrationParameters.NSI_AzureAuthTokenAPI;
+            blobAPIURL = integrationParameters.NSI_AzureStorageAPI;
+            scope =  integrationParameters.NSI_AzureStorageScope;
+            
+            nowDateTime = DateTimeUtil::utcNow();
+            dateHeader = DateTimeUtil::toStr(nowDateTime);
+            fileDateStrFormatted = dateHeader;
+            fileDateStrFormatted= strReplace(fileDateStrFormatted, "@NSI:Slash", "");
+            fileDateStrFormatted = strReplace(fileDateStrFormatted, "@NSI:Colon", "");
+            fileDateStrFormatted = strReplace(fileDateStrFormatted, ' ', "@SYS136211");
+            ;
+            
+            uploadURL = strFmt(
+                "https://%1.%5/%2/%3/%4",
+                storageName,
+                _containerName,
+                _containerFolderName,
+                blobName,
+                blobAPIURL);
+            
+
+            body = strFmt(
+                    "client_id=%1&scope=%2&client_secret=%3&grant_type=client_credentials",
+                    System.Web.HttpUtility::UrlEncode(appid),
+                    scope,
+                    appsecret);
+            
+            webrequestToken = System.Net.WebRequest::Create(tokenUrl);
+            webrequestToken.Method = #POST;
+            webrequestToken.ContentType = #ContentType;
+        
+            System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+            System.Byte[] bytes = encoding.GetBytes(body);
+            webrequestToken.ContentLength = bytes.Length;
+            System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(webrequestToken.GetRequestStream());
+            streamWriter.Write(body);
+            streamWriter.Flush();
+            streamWriter.Close();
+
+            webresponseToken = webrequestToken.GetResponse();
+        
+            System.IO.Stream responseStream = webresponseToken.GetResponseStream();
+            System.IO.StreamReader reader = new System.IO.StreamReader(responseStream);
+            str responseText = reader.ReadToEnd();
+
+            reader.Close();
+            webresponseToken.Close();
+        
+            Newtonsoft.Json.Linq.JObject jObj = Newtonsoft.Json.Linq.JObject::Parse(responseText);
+       
+            
+            accessToken = jObj.GetValue(#AccessToken).ToString();
+            if (accessToken)
+            {
+                System.Net.HttpWebRequest uploadRequest = System.Net.WebRequest::Create(uploadURL);
+                uploadRequest.Method = #PUT;
+                uploadRequest.ContentType = #TEXTCSV;
+                headers = new System.Net.WebHeaderCollection();
+                authTokenheader = #AuthBearer + " " + accessToken;
+                headers.Add(authTokenheader);
+                headers.Add(#BlobTypeASBlockBlob);
+            
+
+                System.DateTime headerDateTime = System.DateTime::UtcNow;
+                headerDateTimeStr = headerDateTime.ToString(#DateFormatR);
+                storageVersion = #AzureBlobVersion + integrationParameters.NSI_AzureStorageVersion;
+                headers.Add(storageVersion);
+                dateHeader = #RequestHeaderDate + headerDateTimeStr;
+                headers.Add(dateHeader);
+                
+                uploadRequest.set_headers(headers);
+                uploadRequest.set_method(#PUT);
+                uploadRequest.set_ContentType(#TEXTCSV);
+
+                System.Text.UTF8Encoding encodingUpload = new System.Text.UTF8Encoding();
+                strCSVContent = _csvContent.ToString();
+                System.Byte[] contentBytes = encodingUpload.GetBytes(strCSVContent);
+                int contentLength = contentBytes.get_Length();
+          
+                uploadRequest.ContentLength =contentLength;
+                System.IO.Stream reqStream = uploadRequest.GetRequestStream();
+           
+                reqStream.Write(contentBytes, 0, contentLength);
+                reqStream.Close();
+            
+                System.Net.HttpWebResponse uploadResponse;
+
+                uploadResponse = uploadRequest.GetResponse();
+
+                info (strFmt("@NSI:BlobUploaded", blobName));
+            
+                uploadResponse.Close();
+            }
+                
+            
+            CodeAccessPermission::revertAssert();
+
+            return blobName;
+        }
+        catch (Exception::CLRError)
+        {
+            System.Net.WebException webEx = CLRInterop::getLastException() as System.Net.WebException;
+
+            if (webEx)
+            {
+                System.Net.HttpWebResponse resp = webEx.Response as System.Net.HttpWebResponse;
+
+                if (resp)
+                {
+                    System.IO.StreamReader errReader = new System.IO.StreamReader (resp.GetResponseStream());
+                    str errText = errReader.ReadToEnd();
+                    errReader.Close();
+                    info (errText);
+                }
+                else
+                {
+                    info (webEx.get_Message());
+                }
+            }
+            return "@NSI:BlobNotUploaded";
+        }
+
+        catch
+        {
+         
+            return "@NSI:BlobNotUploaded";
+        }
+       
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>
