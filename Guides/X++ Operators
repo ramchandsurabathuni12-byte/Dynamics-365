@@ -1,0 +1,45 @@
+X++ Operators >> Assignment operators
+              >> Arithmetic operators
+              >> Expression operators
+              >> Relational operation
+
+Assignment operators 
+=   this operator is used to assign the value to the variable.
+
+
+static void Example1()
+{
+    int i = 1;
+    // Using the = operator. i is assigned the value of i, plus 1. i = 2.
+    i = i + 1;
+    info(strFmt("Example 1: The result is "), i); // The result is 2.
+}
+
++=  Assign the current variable value plus the expression on the right to the variable on the left.
+
+
+static void Example2()
+{
+    int i = 1;
+    // Using the += operator. i is assigned the value of i, plus 1. 
+    // i = 2 (i = i + 1).
+    i += 1;
+    info(strFmt("Example 2: The result is "), i); // The result is 2. 
+}
+
+
+++ Inctrements the value by one
+
+
+static void Example3()
+{
+    int i = 1;
+    // Using the ++ operator. i is incremented by 1, and then 
+    // by 1 again in the second statement. The final value of i is 3.
+    i++;
+    ++i;
+    info(strFmt("Example 3: The result is "), i); // The result is 3. 
+}
+
+
+
