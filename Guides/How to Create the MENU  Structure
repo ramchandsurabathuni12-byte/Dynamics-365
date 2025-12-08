@@ -1,0 +1,17 @@
+Click on the Project and Add / New Item / User Interface /Menu and name it.
+Give the name as required with the prefix to that with our model name and save it.
+Create the Label for the Menu Name and enter the label in the menu property.
+Open the desinger pf menu and right click / New/Submenu / 
+add some of the Sub menus as >> Workspaces
+                             >> Vehicles
+                             >> ServiceOrders
+                             >> PeriodicTasks
+                             >> InquiriesAndReports
+                             >> Setup
+save it and close the desinger of menu.
+now we need to Extend the main menu so that we can navigate to our menu.
+In AOT / User Interface /Menus
+Right click on the menu and choose Create Extension. 
+Rename the new item in our project .
+choose the Menu Node and Right Click and New / Menu reference
+set the Name and Menu Name properties to as mentioned.
