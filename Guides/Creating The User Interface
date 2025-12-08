@@ -1,0 +1,7 @@
+Work Spaces - VendInvoiceWorkspace,VendPaymentWorkspaceTile
+DetailsMaster(Main Tables) - Vendors
+Details Transaction (Worksheets) - Purchase Orders ,Vendor Invoices
+Journals - Payments
+Inquiries and Reports - VendPackingSlipJournal,VendTranslist,VendAccountStatementInt
+PeriodicTasks - PeriodicTasks
+Set up and configuration - Setup,Policy setup etc.
