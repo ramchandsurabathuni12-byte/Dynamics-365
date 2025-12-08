@@ -1,0 +1,22 @@
+Select the project Right click and Add / New item / User Interface /form and name it as required.( The name of both Table and Form should be same )
+Drag the table from the project on to the data source node in the form designer.
+change the properties to NO (Allow Create , Allow Delete ,Insert at End,Insert If Empty)
+The Form Desinger is broken into Three parts as 
+>> Form Pane
+>> Design Pane
+>> Preview Pane
+The Properties to be modified 
+>> caption
+>> Data Source
+>> Title Data Source
+Right Click On Design Node / Apply Pattern / Table of Contents
+Right Click on the Design Node and Choose New / Tab.
+The error gets corrected . Rename the new control to Parameter Tab Page.
+The first Tab is Usally a General settings so name the tab as General TabPage.And Find a Suitable Label For that and enter in a caption property.
+we need to add two Group Controls.
+Right click on the General Tab Page  New / Group 
+Rename the new Group Control General Title Group.
+
+
+
+
