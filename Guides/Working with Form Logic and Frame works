@@ -1,0 +1,10 @@
+Creating a Table Handler Class
+Creating a form Handler Class
+Hooking UP a Number Sequence
+Creating a Create Dialog for Details Transaction forms
+Updating form controls at runtime
+
+
+Code placement is critical to a maintainable and extendable solution.
+we see that the code can be written on the form , in a class and  or in a table.
+The code we write on a form,that code is available on form and cannot be used.
