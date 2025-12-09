@@ -16,3 +16,6 @@ To Export and Import Files
     select the record by using the option "created by user " >> click on it and verify all the data is visible or     not on the both headers and linews level.
  >> If the data is not available please make sure that the mapping is correct and if not use the modify target and     match the mappings.
  >> when the data is correct >> post it >> by clicking the  post button at the top .
+
+Incase If WorkFlow is On the it will not support to Post.
+Disable the work flow and post the record.
