@@ -1,0 +1,14 @@
+ Adding fields to the Standard Table we do the most common changes
+We use this in the Situation How to customize a document layout with out an over layer recipe.
+To do this requirement we need a new solution
+so create a new project within our Package 
+
+
+Locate the Standard Table  in the AOT 
+Right click on it and choose Create extension 
+Make sure all the names must be globally Unique.
+open the new table extension in the designer tab.
+Locate the Name Edt in AOT and drag it to the Extensio Table on to fields node in the designer 
+Rename the Field to Name as required
+set the label Property
+save it and close designer.
