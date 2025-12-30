@@ -1,0 +1,9 @@
+Hooking Up a number sequence
+
+The Number Sequence framework is used on most Details Master and Details Transaction forms( Worksheet Tables).
+ex:- the sales order number is generated through a number sequence 
+when the two forms are dealing with the same table we need to write the code twice.
+first we create a class that defines our number sequences,and then we will write the code to handle them.
+
+we will need to add an element to the NumberSeqModule base enum. To do so we need to locate this enum from AOT and should create extension.
+rename that with our model name.
