@@ -1,0 +1,19 @@
+Data Types in X++
+Int -- Integer Values
+Real -- Decimal values
+str -- string
+boolean -- true/false
+date -- date values
+utcdatetime -- date&time
+container -- collection of mixed values 
+
+examples 
+
+int total = 10;
+str name = "Ram";
+boolean flag = true;
+real Amount = 10.5;
+date currentDate = 09-01-2026;
+utcdatetime today = 09-01-2026 14:37:35;
+
+in this way we declare the datattypes.
