@@ -1,0 +1,6 @@
+A Data Event Handler is a plug-in method that reacts when data changes in a table or data entity—without modifying the original object.
+Create a DataEventHandler Class 
+open the table design and events and locate the event which we need to create.
+Right click on the event and copy the Event Handler method and paste it in the class before we created 
+in the above step the event declaration.
+build it and synchronize .
