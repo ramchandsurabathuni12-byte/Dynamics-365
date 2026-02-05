@@ -1,0 +1,7 @@
+ValidateField() :- The ValidateField() is Field Level Validations
+                  Uses for Mandatorychecks,Date Rules and value limits
+
+the syntax to create validateField()
+public boolean 
+                   
+                   
