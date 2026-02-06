@@ -1,0 +1,55 @@
+Reports are the formated output of business data in d365 usally.(Invoices,Purchase orders,Ledger statements,Customer aging,Trial balance,Custom operational reports)
+In Finops we use the most SSRS(SQL server Reporting services) reports .They run inside the application and can be export into the pdfs,mails,Excel etc..
+The Architecture workflow of Reports (How it works)
+
+Menu item / Print action
+        ↓
+Controller Class
+        ↓
+Contract (parameters)
+        ↓
+DP class (fetch data)
+        ↓
+Temp tables populated
+        ↓
+SSRS Design (.rdl)
+        ↓
+Rendered as PDF/Excel/Print
+
+there are three types of reports 
+1. Document Reports (Transaction Reports) 
+2. Analytical Reports (Tabular Reports)
+3.PowerBI / Embbeded Reports --( not SSRS ) 
+--------------------------------------------------
+ 1. Data Contract Class :-
+
+the data contract class holds the parameters like Date from / to
+                                                  customer
+                                                  status
+2. Controller class :-
+the controller class helps in control  Dailog and execution
+
+3. Data Provider Class :-
+fetches the data and fills temp tables.
+
+4. TempTables :-
+   table with datatye 
+
+5. SSRS (RPL) :-
+   visual layout of the report (Headers,layout,tables,groups)
+
+--------------------------------------------------------------
+
+How to create a Report (Step by Step)
+
+--> Create Temp Table
+--> Create Data Contract Class for parameters
+--> Create Dp Class 
+--> create SSRS Reports 
+    1. To create Reports >> Project >> right click >> add >> new item >> Report
+--> Create Controller
+--> Create Menu item 
+ 
+
+
+
