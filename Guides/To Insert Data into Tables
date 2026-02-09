@@ -1,0 +1,8 @@
+ TASK 1:-
+Feilds from GeneralJournalEntry and GeneralJournalAccountEntry 
+Two tables of Header and Line level are created 
+The records should be inserted into the Table level
+
+we need to create two methods for both Header and Line Tables
+we need to create an relation to both the Header and Line Tables
+
