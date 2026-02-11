@@ -1,0 +1,20 @@
+Created Two different types of Forms.
+HeaderForm and Line Form 
+
+Header Form :-
+1.ActionPaneControl 
+ >> we created a button group as LINES
+ >> Draged the lines form on the Button group (MenuItemButton) 
+ >> Created two buttons on button group as the
+     1.Approve -- Needs Record (yes),Label
+     2.Reject  -- Needs Record (Yes),label 
+2.Filter Group
+3.GridControl
+>> we added the neccessary fields on the header level 
+
+Lines Form :-
+1.ActionPaneControl
+2.FilterGroup
+3.GridControl
+>> Add the Field Group where all the necessary fields are available. 
+
