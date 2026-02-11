@@ -1,0 +1,24 @@
+In Security we have 4 types of Operations 
+>> Security Duty
+>> Security Policy 
+>> Security Privilage 
+>> Security Role
+
+Security Privilage :- Security privilages are used for the System Access like Screens and Actions
+Security Duty      :- These Security Duty are used to group the privilages.
+security Policy    :- The Security Policy are used to Filter Records.
+Security Role      :- The security Role are used to Assign the roles to users.
+
+
+Security Privilages :-
+>> Nodes inside a Security Privilege (D365FO)
+
+A privilege can contain:
+
+1️⃣ Entry Points
+2️⃣ Permissions
+3️⃣ Data Entity Permissions
+4️⃣ Form Control Permissions
+5️⃣ Service Operation Permissions (sometimes visible depending on version)
+
+Entry POints :- 
