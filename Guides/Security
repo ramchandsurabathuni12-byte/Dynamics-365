@@ -22,3 +22,70 @@ A privilege can contain:
 5️⃣ Service Operation Permissions (sometimes visible depending on version)
 
 Entry POints :- 
+The purpose of Entry Points is to Navigate and controls the execution.
+These are used for the MenuItems of Action,Dispaly,Output. On Forms,Reports,
+
+we need to drag the menuitem on to the entry point and then should change the properties 
+1.Access level -- Delete /Read  according to requierment.
+2.Object Type -- menuitem Dispaly/output/Action
+3.Object Name -- name of the menu item.
+4.Grant -- Allow /Deny 
+
+
+Permissions:-
+
+The permissions are used on the Tables and Views and works for CRUD operations.
+
+Data Entity Permissions:-
+
+>> Controls DMF / OData / Excel Add-in / integrations.
+>> Applies to Data Entities.
+
+Used when:
+You expose data for import/export
+External systems call OData
+Excel add-ins are used
+
+Same crud operations.
+
+Form Control Permissions:-
+Very granular UI control.
+Controls: Buttons , Fields , Tabs , Groups
+Overrides default form behavior.
+Properties :-
+1.ControlName	Name of the form control
+2.FormName	Name of the form
+3.Enabled	Yes / No
+4.Visible	Yes / No
+5.Editable	Yes / No
+
+
+
+Security Duty :-
+A Security Duty groups several Privileges that together let someone perform one functional task.
+Example: “Daily Aggregated Data Review”
+
+You might have:
+
+Privilege to open header form
+Privilege to open lines form
+Privilege to run report
+Privilege to delete records
+
+How to create Security Role:
+>> navigate to Aot >> security >> Duty >> give name 
+add the previlages to it and some of the properties as name and etc.
+
+
+Security Role:-
+
+Navigaion >> AOT >> Security >> roles >>
+Add the Duties to the Roles.
+
+
+security Policy :-
+
+
+
+
+
