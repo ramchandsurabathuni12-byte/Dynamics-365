@@ -1,0 +1,15 @@
+The security Privilages were created on the Display MenuItems.
+The process to create Security privilage
+>> right cclick on project >> Add >> NewItem >> Security >> Security Privilage >> Name
+In this Security Privilage we can do two operations as Read and Delete.
+In the Design Go to EntryPoints Node >> Add the Display Menu Items on to the Entry Points.
+then Properties set as 1.Asseces Level = Delete /Read according to the Requirement.
+                       2.Object Name   = MenuItemName 
+                       3.Object Type   = Menu Item Display 
+
+these should be mandotary for every Entry Points That have Created.
+The Name should be as the Maintain at suffix for the MenuItemName.(if it is Delete )
+The Name should be as the View at Suffix for the MenuItemNAme(If IT is read).
+
+
+ 
