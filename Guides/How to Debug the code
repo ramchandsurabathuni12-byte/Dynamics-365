@@ -1,4 +1,15 @@
 Select the point and make a red breakpoint
-start Debugging it 
-if red line is not found 
-load the symbols
+Debug it 
+attach to process 
+search for iis express in the filter 
+and start debugging 
+if the red line not found then we need to load the symbols 
+
+To load the symbols 
+go to Debug >> Symbols >> Options >> check the path >> Load Symbols.
+
+In the FNO we need to click the button to debug the process 
+
+The Round arrow works to move to next line.
+The Down Arrow  is used to Step Into that particular method.
+The 
