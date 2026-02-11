@@ -1,0 +1,4 @@
+Refresh() :- need to refresh manually no auto update on buttons.
+refresh() and research() :- Changing the status but the cursor is moving.
+Reread() and Research() :- changing the status and record selection moving to top record.
+Reread() :- Changing the status and cursor is also staying stable.
