@@ -1,0 +1,48 @@
+Requirements :-
+The Data on the report should be populated into the Lines table when the report is issued.
+for this we need to write the business event and create tables and forms and Business event service and also the contract classes.
+Tables: 1.HeaderTable
+        2.LinesTable
+Forms:  1.HeaderForm
+        2.LinesForm
+MenuItems:1.Header MenuItem
+          2.Lines  MenuItem
+Menu :- if nessessary should create the new one or else get it from the application.
+SecurityPrivilges:
+         1.create for both lines and Headers (Read and Delete)
+Service Groups:- 
+         1.Create this for menu 
+Services:-
+         1.create service for lines
+          >>Class -- service class
+          >>External Name -- label
+         2.Service Operations
+          >> Create three of the Service Operations as 
+         1.Getdata
+          >> Method,Subscriber access level - Read
+         2.GetStatus
+          >>Method,Subscriber access level - Read
+         3.setStatus
+          >>Method,Subscriber access level -Invoke
+
+Classes :- 1.DailyAggregatedPostedDataBusinessEvent
+           2.DailyAggregatedPostedDAtaBusinessEventContract
+           3.DailyAggregatedPostedDataLineContract
+           4.DailyAggregatedPostedDataService
+           5.DailyAggregatedPostingReortService
+
+ReRead() is working for autorefresh the form when the button is clicked.
+
+
+How to UnitTest the Above Development
+
+step 1 -- Generate the Report
+step 2 -- open the form DailyAggregatedPostedData
+step 3 -- check the report is generated header or not 
+step 4 -- if record is generated then check the lines have the data or not by clicking the lines button.
+step 5 -- after checking the data click the approved button then the status should change to the Ready to Afah
+step 6 -- when the reject button is clicked then the status is changed to the Validation Rejection.
+
+
+
+
