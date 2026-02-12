@@ -1,0 +1,38 @@
+internal final class NSI_DailyAggregatedPostedDataService
+{
+List contractList;
+
+public void init()
+{
+contractList = new List(Types::Class);
+}
+
+public List getData(guid _runId)
+{
+this.init();
+NSI_DailyAggregatedPostedDataLInes lines;
+while select * from Lines
+where lines.RunId == _runId
+{
+NSI_DailyAggregatedPostedDataLineContract contract;
+contract = NSI_DailyAggregatedPostedDataLineContract::newFromLine(lines);
+this.addToList(contract);
+}
+return contractList;
+}
+
+public void setStatus(guid _runId,NSIIntegrationStatus _status)
+{
+NSI_DailyAggregatedPostedDataHeader::setStatus(_runId,_status);
+}
+
+public NSIIntegrationStatus getStatus(guid _runId)
+{
+return NSI_DailyAggregatedPostedDataHeader::find(_runId).IntegrationStatus;
+}
+
+public void addToList(NSI_DailyAggregatedPostedDataLineContract _contract)
+{
+contractList.addEnd(_contract);
+}
+}
