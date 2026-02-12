@@ -1,0 +1,33 @@
+[DataContract]
+internal final class NSI_DailyAggregatedPostedDataBusinessEventContract extends BusinessEventsContract
+{
+private NSIIntegrationStatus status;
+private guid                 runID;
+
+protected void intialize(NSI_DailyAggregatedPostedDataHeader _header)
+{
+this.status = _header.IntegrationStatus;
+this.runId  = _header.RunId;
+}
+
+public static NSI_DailyAggregatedPostedDataBusinessEventContract newFromHeader(NSI_DailyAggregatedPostedDataHeader _header)
+{
+NSI_DailyAggregatedPostedDataBusinessEventContract contract = new NSI_DailyAggregatedPostedDataBusinessEventContract();
+contract.initialize(_header);
+return contract;
+}
+
+[DataMemberAttribute("Status")]
+public NSIIntegrationStatus parmStatus(NSIIntegrationStatus _status = status)
+{
+status = _status;
+return status;
+}
+
+[DataMemberAttribute("RunId")]
+public guid parmRunId(guid _runId = runID)
+{
+runId = _runId;
+return runId;
+}
+}
