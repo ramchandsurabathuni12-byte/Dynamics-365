@@ -1,0 +1,26 @@
+internal final class NSI_DailyAggregatedPostedDataBusinessEvent extends BusinessEventsBase
+{
+
+NSI_DailyAggregatedPostedDataHeader header;
+
+protected BusinessEventsContract buildContract()
+{
+BusinessEventsContract ret;
+ret = NSI_DailyAggregatedPostedDataBusinessEventContract::newFromHeader(header);
+return ret;
+}
+
+public NSI_DailyAggregatedPostedDataHeader parmHeader(NSI_DailyAggregatedPostedDataHeader _header = header)
+{
+header = _header;
+return header;
+}
+
+public static NSI_DailyAggregatedPostedDataBusinessEvent newFromHeader(NSI_DailyAggregatedPostedDataHandler _header)
+{
+NSI_DailyAggregatedPostedDataBusinessEvent businessEvent = new NSI_DailyAggregatedPostedDataBusinessEvent();
+businessEvent.parmHeader(_header);
+return businessEvent;
+}
+
+}
