@@ -1,0 +1,45 @@
+[DataContract]
+public class NSI_DailyAggregatedPostedDataLIneContract
+{
+// Declaration of variables
+private str Gl_Cost_Center;
+private str Gl_Account;
+private str Gl_Activity;
+private Date Gl_Date;
+private real Gl_Amount;
+private str  Gl_Description;
+private date Gl_Analysis_1_Id;
+private date Gl_Analysis_2_Id;
+private int Gl_Period;
+private int Gl_Year;
+private str Gl_Ref;
+private str Cljo_Posting_ref;
+private str Cljo_Period;
+private str Cljo_year;
+private guid RundId;
+
+protected void intialize(NSI_DailyAggregatedPostedDataLines _dailyAggregatedPostedDataLines)
+{
+Gl_Cost_Center = _dailyAggregatedPostedDataLines.Gl_Cost_Center;
+Gl_Account     = _dailyAggregatedPostedDataLines.Gl_Account;
+Gl_Activity    = _dailyAggregatedPostedDataLines.Gl_Activity;
+Gl_Date        = _dailyAggregatedPostedDataLines.Gl_Date;
+Gl_Amount      = _dailyAggregatedPostedDataLines.Gl_Amount;
+Gl_Description =  
+// intializes the values to lines
+}
+public static NSI_DailyAggregatedPostedDataLineContract newFromLine(NSI_DailyAggregatedPostedDataLines _dailyAggregatedPostedDataLines)
+{
+NSI_DailyAggregatedPostedDataLineContract contract = new NSI_DailyAggregatedPostedDataLineContract();
+contract.intialize(_dailyAggregatedPostedDataLines);
+return contract;
+}
+
+[DataMember("Gl_Cost_Center")]
+public str parmGl_Cost_Center(str _gl_Cost_Center = Gl_Cost_Center)
+{
+Gl_Cost_Center = _gl_Cost_Center;
+retiurn Gl_Cost_Center;
+}
+// write all the parameters for remaining fields.
+}
