@@ -1,0 +1,101 @@
+internal final class SRC_OverallBalanceReportService
+{
+    #DEFINE.BlankValue('')
+    #DEFINE.ReportFileHeader("gl_cost_centre,gl_account,gl_activity,GL_DATE,gl_amount,gl_description,gl_analysis_1_id,gl_analysis_2_id,gl_period,gl_year,gl_ref,cljo_posting_ref,cljo_period,cljo_year")
+        
+}
+
+    public void generateReport(SRC_OverallBalanceReportcontroller _contract)
+    {
+        #OCCRetryCount
+        System.Exception generalException;
+
+        TransDate       previousDay, currentDate;
+        guid            executionId = newGuid();
+        RefRecId        logRecId;
+        str             blobName, uploadStatus;
+
+        try
+        {
+            ttsbegin;
+            currentDate = DateTimeUtil::getToday(DateTimeUtil::getUserPreferredTimeZone());
+            previousDay = DateTimeUtil::date(DateTimeUtil::addDays(DateTimeUtil::getSystemDateTime(), -1));
+
+            // Mark the process start
+            logRecId = NSIExportStatusLogUpdateHelper::startProcessLog (executionID, "@SRC_LabelFile:OverallBalanceReport" , currentDate, "@SYS8577");
+            
+            // upload the file to azure blob as per the parameters
+            uploadStatus = this.generateCSVContentAndBlobUpload(executionId, previousDay, logRecId);
+
+            blobName = (uploadStatus != "@NSI:BlobNotUploaded") ? uploadStatus : "@NSI:BlobNotUploaded";
+            
+            // Mark the process completed.
+            NSIExportStatusLogUpdateHelper::markCompleted (logRecId, blobName);
+
+            ttscommit;
+            
+        }
+        catch(generalException)
+        {
+            ttsabort;
+            if ( generalException != null)
+            {
+                str msg = generalException.Message;
+                NSIExportStatusLogUpdateHelper::markError(executionID, "@SRC_LabelFile:OverallBalanceReport", logRecId, msg + '\n' + generalException.StackTrace);
+                throw error(msg);
+            }
+        }
+    }
+
+public void createHeader(guid _runId)
+{
+NSI_DailyAggregatedPostedDataHeader   header;
+header.RunId = _runId;
+header.TransDate = DateTimeUtil::getToday(DateTimeUtil::getUserPreferredTimeZone());
+header.IntegrationStatus = NSIIntegrationStatus::None;
+header.insert();
+}
+
+
+    /// <summary>
+    /// Generate csv content and upload into Azure blob
+    /// </summary>
+    /// <param name = "_executionID">The execution unique id.</param>
+    public  void  createLines(guid _runId,TransDate _reportDate)
+    {
+        NSI_DailyAggregatedPostedDataLines lines;
+        NSI_IntegrationParametersTable integrationParameters;
+        GeneralJournalEntry generalJournalEntry;
+        GeneralJournalAccountEntry generalJournalAccountEntry;
+        
+        while select generalJournalAccountEntry
+            join generalJournalEntry
+            where generalJournalEntry.RecId == generalJournalAccountEntry.GeneralJournalEntry
+            && generalJournalEntry.AccountingDate == _reportDate
+        {
+            
+            container conDimensions = str2con(LedgerDimensionFacade::getDisplayValueForLedgerDimension(generalJournalAccountEntry.LedgerDimension),DimensionParameters::getDimensionSegmentDelimiter());
+
+           
+           
+            lines.Gl_Cost_Center =   conPeek(conDimensions, 2),                              // gl_cost_centre
+            lines.Gl_Account     =   conPeek(conDimensions, 1),                              // gl_account,
+            lines.Gl_Activity    =   conPeek(conDimensions, 3),                              // gl_activity
+            lines.Gl_Date        =   generalJournalEntry.AccountingDate,                     // GL_DATE
+            lines.Gl_Amount      =  any2Str(generalJournalAccountEntry.TransactionCurrencyAmount),   // gl_amount
+            lines.Gl_Description = generalJournalAccountEntry.Text,                        // gl_description
+               lines.Gl_ generalJournalEntry.DocumentDate,                       // gl_analysis_1_id
+                generalJournalEntry.NSI_Date_Transaction1,              // gl_analysis_2_id
+                generalJournalEntry.NSI_Period,                         // gl_period
+                generalJournalEntry.NSI_Year,                           // gl_year
+                generalJournalEntry.SubledgerVoucher,                   // gl_ref
+                generalJournalEntry.SubledgerVoucher,                   // cljo_posting_ref
+                generalJournalEntry.NSI_Period,                         // cljo_period
+                generalJournalEntry.NSI_Year));                         // cljo_year
+
+       lines.RunID               = _runId;
+       lines.insert()          
+                
+        }
+    }
+
