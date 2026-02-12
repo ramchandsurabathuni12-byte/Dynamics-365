@@ -1,19 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-	<Name>SRC_OverallBalanceReportService</Name>
-	<SourceCode>
-		<Declaration><![CDATA[
+
 internal final class SRC_OverallBalanceReportService
 {
     #DEFINE.BlankValue('')
     #DEFINE.ReportFileHeader("gl_cost_centre,gl_account,gl_activity,GL_DATE,gl_amount,gl_description,gl_analysis_1_id,gl_analysis_2_id,gl_period,gl_year,gl_ref,cljo_posting_ref,cljo_period,cljo_year")
         
 }
-]]></Declaration>
-		<Methods>
-			<Method>
-				<Name>generateReport</Name>
-				<Source><![CDATA[
+
     public void generateReport(SRC_OverallBalanceReportcontroller _contract)
     {
         #OCCRetryCount
@@ -56,44 +48,44 @@ internal final class SRC_OverallBalanceReportService
         }
     }
 
-]]></Source>
-			</Method>
-			<Method>
-				<Name>generateCSVContentAndBlobUpload</Name>
-				<Source><![CDATA[
+public void createHeader(guid _runId)
+{
+NSI_DailyAggregatedPostedDataHeader   header;
+header.RunId = _runId;
+header.TransDate = DateTimeUtil::getToday(DateTimeUtil::getUserPreferredTimeZone());
+header.IntegrationStatus = NSIIntegrationStatus::None;
+header.insert();
+}
+
+
     /// <summary>
     /// Generate csv content and upload into Azure blob
     /// </summary>
     /// <param name = "_executionID">The execution unique id.</param>
-    private str generateCSVContentAndBlobUpload(SysGuid _executionID, TransDate _reportDate, RefRecId _logRecId)
+    public  void  createLines(guid _runId,TransDate _reportDate)
     {
-        System.Text.StringBuilder resultString = new System.Text.StringBuilder ();
-        str  blobUploadStatus;
+        NSI_DailyAggregatedPostedDataLines lines;
         NSI_IntegrationParametersTable integrationParameters;
         GeneralJournalEntry generalJournalEntry;
         GeneralJournalAccountEntry generalJournalAccountEntry;
-        ;
-
-        integrationParameters = NSI_IntegrationParametersTable::find();
-        resultString.AppendLine(#ReportFileHeader);
         
         while select generalJournalAccountEntry
             join generalJournalEntry
             where generalJournalEntry.RecId == generalJournalAccountEntry.GeneralJournalEntry
             && generalJournalEntry.AccountingDate == _reportDate
         {
-            str displayValue        = LedgerDimensionfacade::getDisplayValueForLedgerDimension(generalJournalAccountEntry.LedgerDimension);
-            container conDimensions = str2con(displayValue, DimensionParameters::getDimensionSegmentDelimiter());
+            
+            container conDimensions = str2con(LedgerDimensionFacade::getDisplayValueForLedgerDimension(generalJournalAccountEntry.LedgerDimension),DimensionParameters::getDimensionSegmentDelimiter());
 
            
-            resultString.AppendLine(strFmt("%1, %2, %3, %4, %5, %6, %7, %8, %9, %10, %11, %12, %13, %14",
-                conPeek(conDimensions, 2),                              // gl_cost_centre
-                conPeek(conDimensions, 1),                              // gl_account,
-                conPeek(conDimensions, 3),                              // gl_activity
-                generalJournalEntry.AccountingDate,                     // GL_DATE
-                any2Str(generalJournalAccountEntry.TransactionCurrencyAmount),   // gl_amount
-                generalJournalAccountEntry.Text,                        // gl_description
-                generalJournalEntry.DocumentDate,                       // gl_analysis_1_id
+           
+            lines.Gl_Cost_Center =   conPeek(conDimensions, 2),                              // gl_cost_centre
+            lines.Gl_Account     =   conPeek(conDimensions, 1),                              // gl_account,
+            lines.Gl_Activity    =   conPeek(conDimensions, 3),                              // gl_activity
+            lines.Gl_Date        =   generalJournalEntry.AccountingDate,                     // GL_DATE
+            lines.Gl_Amount      =  any2Str(generalJournalAccountEntry.TransactionCurrencyAmount),   // gl_amount
+            lines.Gl_Description = generalJournalAccountEntry.Text,                        // gl_description
+               lines.Gl_ generalJournalEntry.DocumentDate,                       // gl_analysis_1_id
                 generalJournalEntry.NSI_Date_Transaction1,              // gl_analysis_2_id
                 generalJournalEntry.NSI_Period,                         // gl_period
                 generalJournalEntry.NSI_Year,                           // gl_year
@@ -101,26 +93,10 @@ internal final class SRC_OverallBalanceReportService
                 generalJournalEntry.SubledgerVoucher,                   // cljo_posting_ref
                 generalJournalEntry.NSI_Period,                         // cljo_period
                 generalJournalEntry.NSI_Year));                         // cljo_year
-                
-            
-                       
+
+       lines.RunID               = _runId;
+       lines.insert()          
                 
         }
-        
-        blobUploadStatus = NSIAzureStorageHelper::uploadBlobV2(resultString,
-                                                               integrationParameters.NSI_ClientId_SecretName,
-                                                               integrationParameters.NSI_ClientSecret_SecretName,
-                                                               integrationParameters.NSI_StorageAccount_SecretName,
-                                                               integrationParameters.NSI_ContainerNameBalanceReport,
-                                                               integrationParameters.NSI_FileNameFormatOverallBalanceReport,
-                                                               integrationParameters.NSI_BlobFolderPathBalanceReport
-                                                               );
-        
-        return blobUploadStatus;
     }
 
-]]></Source>
-			</Method>
-		</Methods>
-	</SourceCode>
-</AxClass>
