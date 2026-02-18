@@ -10,6 +10,7 @@ MenuItems:1.Header MenuItem
 Menu :- if nessessary should create the new one or else get it from the application.
 SecurityPrivilges:
          1.create for both lines and Headers (Read and Delete)
+         2.create Privilage for DataEntity and add the DataEntity in DataEntityPermissions node .
 Service Groups:- 
          1.Create this for menu 
 Services:-
@@ -42,6 +43,15 @@ step 3 -- check the report is generated header or not
 step 4 -- if record is generated then check the lines have the data or not by clicking the lines button.
 step 5 -- after checking the data click the approved button then the status should change to the Ready to Afah
 step 6 -- when the reject button is clicked then the status is changed to the Validation Rejection.
+
+create post man service to check the updates how the functionality works.
+
+
+BusinessEventClass
+
+class NSI_DailyAggregatedPostedDataBusinessEvent extends BusinessEvent
+
+
 
 
 
