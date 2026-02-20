@@ -1,0 +1,572 @@
+Create the Classes 
+1. BusinessEvent Class
+2.BusinessEventContract Class
+3.Line Contract Class
+4.ServiceResultContract Class
+5.service class 
+6.ReportService class 
+7.NumberSeqModule Class
+
+Create the Forms And MenuItems And Menus 
+1.LinesForm 
+2.Header Form
+3.LinesMenuItem
+4.HeaderMenuItem
+5.Create new if neccessary or else create extension from the menu to the project.( Drag the MenuItems to that path ).
+6.Create the Security Privilages to the Headers,Lines and ENdpoints.(For Both Read and Delete)
+
+Create an Extension for the Security Roles of 1.DataManagementAdministration
+                                              2.DataManagementOperationsUsers
+
+Create the Service Group and Services 
+Create the Tables and the required fields.
+
+//Business Event Class 
+
+[BusinessEvents(classStr(NSI_DailyAggregatedPostedDataBusinessEventContract))]
+internal final class NSI_DailyAggregatedPostedDataBusinessEvent extends BusinessEventsBase
+{
+    NSI_DailyAggregatedPostedDataHeader header;
+
+    /// <summary>
+    /// Builds the business event contract.
+    /// </summary>
+    /// <returns></returns>
+    protected BusinessEventsContract buildContract()
+    {
+        BusinessEventsContract ret;
+
+        ret = NSI_DailyAggregatedPostedDataBusinessEventContract::newFromHeader(header);
+
+        return ret;
+    }
+
+    public NSI_DailyAggregatedPostedDataHeader parmHeader(
+        NSI_DailyAggregatedPostedDataHeader _header = header)
+    {
+        header = _header;
+        return header;
+    }
+
+    public static NSI_DailyAggregatedPostedDataBusinessEvent newFromHeader(
+        NSI_DailyAggregatedPostedDataHeader _header)
+    {
+        NSI_DailyAggregatedPostedDataBusinessEvent businessEvent =
+            new NSI_DailyAggregatedPostedDataBusinessEvent();
+
+        businessEvent.parmHeader(_header);
+
+        return businessEvent;
+    }
+}
+
+
+BusinessEventContract 
+
+[DataContract]
+internal final class NSI_DailyAggregatedPostedDataBusinessEventContract extends BusinessEventsContract
+{
+    private NSIIntegrationStatus status;
+    private NSI_DailyRunId        runId;
+
+    protected void initialize(NSI_DailyAggregatedPostedDataHeader _header)
+    {
+        this.status = _header.IntegrationStatus;
+        this.runId  = _header.NSI_DailyRunId;
+    }
+
+    public static NSI_DailyAggregatedPostedDataBusinessEventContract newFromHeader(
+        NSI_DailyAggregatedPostedDataHeader _header)
+    {
+        NSI_DailyAggregatedPostedDataBusinessEventContract contract =
+            new NSI_DailyAggregatedPostedDataBusinessEventContract();
+
+        contract.initialize(_header);
+
+        return contract;
+    }
+
+    [DataMemberAttribute('Status')]
+    public NSIIntegrationStatus parmStatus(NSIIntegrationStatus _status = status)
+    {
+        status = _status;
+        return status;
+    }
+
+    [DataMemberAttribute('RunId')]
+    public NSI_DailyRunId parmRunId(NSI_DailyRunId _runId = runId)
+    {
+        runId = _runId;
+        return runId;
+    }
+}
+
+
+Lines Contract 
+
+[DataContract]
+public class NSI_DailyAggregatedPostedDataLineContract
+{
+    private str  GL_Cost_Center;
+    private str  GL_Account;
+    private str  GL_Activity;
+    private date GL_Date;
+    private real GL_Amount;
+    private str  GL_Description;
+    private date GL_Analysis_1_Id;
+    private date GL_Analysis_2_Id;
+    private int  GL_Period;
+    private int  GL_Year;
+    private str  GL_Ref;
+    private str  Cljo_Posting_ref;
+    private int  Cljo_Period;
+    private int  Cljo_year;
+    private str  RunId;
+
+    protected void initialize(NSI_DailyAggregatedPostedDataLines _dailyAggregatedPostedDataLines)
+    {
+        GL_Cost_Center   = _dailyAggregatedPostedDataLines.GL_Cost_Centre;
+        GL_Account       = _dailyAggregatedPostedDataLines.GL_Account;
+        GL_Activity      = _dailyAggregatedPostedDataLines.GL_Activity;
+        GL_Date          = _dailyAggregatedPostedDataLines.GL_Date;
+        GL_Amount        = _dailyAggregatedPostedDataLines.GL_Amount;
+        GL_Description   = _dailyAggregatedPostedDataLines.GL_Description;
+        GL_Analysis_1_Id = _dailyAggregatedPostedDataLines.GL_Analysis_1_Id;
+        GL_Analysis_2_Id = _dailyAggregatedPostedDataLines.GL_Analysis_2_Id;
+        GL_Period        = _dailyAggregatedPostedDataLines.GL_Period;
+        GL_Year          = _dailyAggregatedPostedDataLines.GL_Year;
+        GL_Ref           = _dailyAggregatedPostedDataLines.GL_Ref;
+        Cljo_Posting_ref = _dailyAggregatedPostedDataLines.Cljo_Posting_ref;
+        Cljo_Period      = _dailyAggregatedPostedDataLines.Cljo_Period;
+        Cljo_year        = _dailyAggregatedPostedDataLines.Cljo_year;
+        RunId            = _dailyAggregatedPostedDataLines.NSI_DailyRunId;
+    }
+
+    public static NSI_DailyAggregatedPostedDataLineContract newFromLine(
+        NSI_DailyAggregatedPostedDataLines _dailyAggregatedPostedDataLines)
+    {
+        NSI_DailyAggregatedPostedDataLineContract contract =
+            new NSI_DailyAggregatedPostedDataLineContract();
+
+        contract.initialize(_dailyAggregatedPostedDataLines);
+
+        return contract;
+    }
+
+    [DataMember("GL_Cost_Center")]
+    public str parmGL_Cost_Center(str _costcenter = GL_Cost_Center)
+    {
+        GL_Cost_Center = _costcenter;
+        return GL_Cost_Center;
+    }
+
+    [DataMember("GL_Account")]
+    public str parmGL_Account(str _account = GL_Account)
+    {
+        GL_Account = _account;
+        return GL_Account;
+    }
+
+    [DataMember("GL_Activity")]
+    public str parmGL_Activity(str _activity = GL_Activity)
+    {
+        GL_Activity = _activity;
+        return GL_Activity;
+    }
+
+    [DataMember("GL_Date")]
+    public date parmGL_Date(date _date = GL_Date)
+    {
+        GL_Date = _date;
+        return GL_Date;
+    }
+
+    [DataMember("GL_Amount")]
+    public real parmGL_Amount(real _amount = GL_Amount)
+    {
+        GL_Amount = _amount;
+        return GL_Amount;
+    }
+
+    [DataMember("GL_Description")]
+    public str parmGL_Description(str _description = GL_Description)
+    {
+        GL_Description = _description;
+        return GL_Description;
+    }
+
+    [DataMember("GL_Analysis_1_Id")]
+    public date parmGL_Analysis_1_Id(date _analysis_1 = GL_Analysis_1_Id)
+    {
+        GL_Analysis_1_Id = _analysis_1;
+        return GL_Analysis_1_Id;
+    }
+
+    [DataMember("GL_Analysis_2_Id")]
+    public date parmGL_Analysis_2_Id(date _analysis_2 = GL_Analysis_2_Id)
+    {
+        GL_Analysis_2_Id = _analysis_2;
+        return GL_Analysis_2_Id;
+    }
+
+    [DataMember("GL_Period")]
+    public int parmGL_Period(int _period = GL_Period)
+    {
+        GL_Period = _period;
+        return GL_Period;
+    }
+
+    [DataMember("GL_Year")]
+    public int parmGL_Year(int _year = GL_Year)
+    {
+        GL_Year = _year;
+        return GL_Year;
+    }
+
+    [DataMember("GL_Ref")]
+    public str parmGL_Ref(str _ref = GL_Ref)
+    {
+        GL_Ref = _ref;
+        return GL_Ref;
+    }
+
+    [DataMember("Cljo_Posting_ref")]
+    public str parmCljo_Posting_ref(str _postingref = Cljo_Posting_ref)
+    {
+        Cljo_Posting_ref = _postingref;
+        return Cljo_Posting_ref;
+    }
+
+    [DataMember("Cljo_Period")]
+    public int parmCljo_Period(int _period = Cljo_Period)
+    {
+        Cljo_Period = _period;
+        return Cljo_Period;
+    }
+
+    [DataMember("Cljo_year")]
+    public int parmCljo_year(int _year = Cljo_year)
+    {
+        Cljo_year = _year;
+        return Cljo_year;
+    }
+
+    [DataMember("NSI_DailyRunId")]
+    public str parmRunId(str _runId = RunId)
+    {
+        RunId = _runId;
+        return RunId;
+    }
+}
+
+ServiceClass 
+
+internal final class NSI_DailyAggregatedPostedDataService
+{
+    List linesContract;
+    NSI_DailyAggregatedPostingDataServiceResultContract resultContract;
+
+    public void init()
+    {
+        linesContract  = new List(Types::Class);
+        resultContract = new NSI_DailyAggregatedPostingDataServiceResultContract();
+    }
+
+    /// <summary>
+    /// Entry point of the service
+    /// </summary>
+    /// <param name="_runId"></param>
+    [AifCollectionTypeAttribute('return', Types::Class, classStr(NSI_DailyAggregatedPostedDataLineContract))]
+    public List getData(DataAreaId company, NSI_DailyRunId runId)
+    {
+        this.init();
+
+        NSI_DailyAggregatedPostedDataLines lines;
+
+        changecompany(company)
+        {
+            while select * from lines
+                where lines.NSI_DailyRunId == runId
+            {
+                linesContract.addEnd(
+                    NSI_DailyAggregatedPostedDataLineContract::newFromLine(lines));
+            }
+        }
+
+        return linesContract;
+    }
+
+    /// <summary>
+    /// Set the status of the record
+    /// </summary>
+    [AifCollectionTypeAttribute('return', Types::Class, classStr(NSI_DailyAggregatedPostingDataServiceResultContract))]
+    public NSI_DailyAggregatedPostingDataServiceResultContract setStatus(
+        NSI_DailyRunId runId,
+        NSIIntegrationStatus status,
+        DataAreaId company)
+    {
+        System.Exception exception;
+        str message;
+        str result;
+
+        this.init();
+
+        changecompany(company)
+        {
+            try
+            {
+                ttsbegin;
+
+                NSI_DailyAggregatedPostedDataHeader::setStatus(runId, status);
+
+                if (status == NSIIntegrationStatus::SentToAFAH)
+                {
+                    this.updateExportStatusToCompleted(runId);
+                }
+
+                result = "Success";
+
+                ttscommit;
+            }
+            catch (exception)
+            {
+                ttsabort;
+
+                if (exception != null)
+                {
+                    message = exception.Message;
+                }
+
+                result = "failed";
+            }
+        }
+
+        resultContract.parmMessage(message);
+        resultContract.parmStatus(result);
+
+        return resultContract;
+    }
+
+    /// <summary>
+    /// Wrapper method to mark status completed
+    /// </summary>
+    [AifCollectionTypeAttribute('return', Types::String)]
+    public str setStatusCompleted(NSI_DailyRunId runId, DataAreaId company)
+    {
+        NSI_DailyAggregatedPostingDataServiceResultContract result =
+            this.setStatus(runId, NSIIntegrationStatus::SentToAFAH, company);
+
+        return result.parmStatus();
+    }
+
+    /// <summary>
+    /// Get the status of the record
+    /// </summary>
+    [AifCollectionTypeAttribute('return', Types::String)]
+    public str getStatus(NSI_DailyRunId runId, DataAreaId company)
+    {
+        NSIIntegrationStatus status;
+        NSI_DailyAggregatedPostedDataHeader header;
+
+        changecompany(company)
+        {
+            select firstonly header
+                where header.NSI_DailyRunId == runId;
+
+            if (header)
+            {
+                status = header.IntegrationStatus;
+            }
+        }
+
+        return enum2Str(status);
+    }
+
+    private void updateExportStatusToCompleted(NSI_DailyRunId _runId)
+    {
+        NSIExportStatusLog exportLogStatus;
+
+        ttsbegin;
+
+        select forupdate exportLogStatus
+            where exportLogStatus.RunIDW1 == _runId;
+
+        if (exportLogStatus)
+        {
+            exportLogStatus.Status = NSIExportStatus::Completed;
+            exportLogStatus.update();
+        }
+
+        ttscommit;
+    }
+}
+
+ServiceResultContract
+
+internal final class NSI_DailyAggregatedPostingDataServiceResultContract
+{
+    str message;
+    str status;
+    List list;
+    NSI_DailyAggregatedPostedDataLineContract lineContract;
+
+    /// <summary>
+    /// Message if there is any exception thrown by the system
+    /// </summary>
+    /// <param name="_message"></param>
+    /// <returns>Message</returns>
+    [AifCollectionTypeAttribute('return', Types::String)]
+    public str parmMessage(str _message = message)
+    {
+        message = _message;
+        return message;
+    }
+
+    /// <summary>
+    /// Result of the endpoint
+    /// </summary>
+    /// <param name="_status"></param>
+    /// <returns>Result</returns>
+    [AifCollectionTypeAttribute('return', Types::String)]
+    public str parmStatus(str _status = status)
+    {
+        status = _status;
+        return status;
+    }
+
+    /// <summary>
+    /// Returns the list of lines for the given runid as part of the report
+    /// </summary>
+    /// <param name="_list"></param>
+    /// <returns>List of lines</returns>
+    [DataMemberAttribute,
+     AifCollectionTypeAttribute('return', Types::Class, classStr(NSI_DailyAggregatedPostedDataLineContract))]
+    public List parmLinesList(List _list = list)
+    {
+        list = _list;
+        return list;
+    }
+}
+
+ReportServiceClass 
+
+internal final class NSI_DailyAggregatedPostingReportService
+{
+    /// <summary>
+    /// Generates the report
+    /// </summary>
+    /// <param name="_contract">ReportContract parameters</param>
+    public void generateReport(NSI_DailyAggregatedPostingReportContract _contract)
+    {
+        #OCCRetryCount
+        System.Exception generalException;
+
+        TransDate previousDay, currentDate;
+        NSI_DailyRunId executionId = NSI_NumberSeqModule::GetNewDailyRunId();
+        RefRecId logRecId;
+
+        try
+        {
+            ttsbegin;
+
+            currentDate = DateTimeUtil::getToday(
+                DateTimeUtil::getUserPreferredTimeZone());
+
+            // Mark the process start
+            logRecId = NSIExportStatusLogUpdateHelper::startProcessLog(
+                executionId,
+                "@NSI:Aggregatedposteddata",
+                currentDate,
+                "@SYS8577");
+
+            // Create report header table record
+            this.createHeader(executionId);
+
+            // Create report line records
+            this.createLines(executionId, currentDate);
+
+            // Change the header status as ReadyForValidation
+            NSI_DailyAggregatedPostedDataHeader::setStatus(
+                executionId,
+                NSIIntegrationStatus::ReadyForValidation);
+
+            ttscommit;
+        }
+        catch (generalException)
+        {
+            ttsabort;
+
+            if (generalException != null)
+            {
+                str msg = generalException.Message;
+
+                NSIExportStatusLogUpdateHelper::markError(
+                    executionId,
+                    "@NSI:Aggregatedposteddata",
+                    logRecId,
+                    msg + '\n' + generalException.StackTrace);
+
+                throw error(msg);
+            }
+        }
+    }
+
+    public void createHeader(NSI_DailyRunId _runId)
+    {
+        NSI_DailyAggregatedPostedDataHeader header;
+
+        header.NSI_DailyRunId     = _runId;
+        header.TransDate          = DateTimeUtil::getToday(
+                                        DateTimeUtil::getUserPreferredTimeZone());
+        header.IntegrationStatus  = NSIIntegrationStatus::None;
+
+        header.insert();
+    }
+
+    public void createLines(NSI_DailyRunId _runId, TransDate _reportDate)
+    {
+        NSI_DailyAggregatedPostedDataLines lines;
+        NSI_IntegrationParametersTable integrationParameters;
+        GeneralJournalEntry generalJournalEntry;
+        GeneralJournalAccountEntry generalJournalAccountEntry;
+
+        while select generalJournalAccountEntry
+            join generalJournalEntry
+                where generalJournalEntry.RecId ==
+                      generalJournalAccountEntry.GeneralJournalEntry
+                   && generalJournalEntry.AccountingDate == _reportDate
+        {
+            container conDimensions =
+                str2con(
+                    LedgerDimensionFacade::getDisplayValueForLedgerDimension(
+                        generalJournalAccountEntry.LedgerDimension),
+                    DimensionParameters::getDimensionSegmentDelimiter());
+
+            lines.GL_Cost_Centre   = conPeek(conDimensions, 2);
+            lines.GL_Account       = conPeek(conDimensions, 1);
+            lines.GL_Activity      = conPeek(conDimensions, 3);
+            lines.GL_Date          = generalJournalEntry.AccountingDate;
+            lines.GL_Amount        = generalJournalAccountEntry.TransactionCurrencyAmount;
+            lines.GL_Description   = generalJournalAccountEntry.Text;
+            lines.GL_Analysis_1_Id = generalJournalEntry.DocumentDate;
+            lines.GL_Analysis_2_Id = generalJournalEntry.NSI_Date_Transaction;
+            lines.GL_Period        = generalJournalEntry.NSI_Period;
+            lines.GL_Year          = generalJournalEntry.NSI_Year;
+            lines.GL_Ref           = generalJournalEntry.SubledgerVoucher;
+            lines.Cljo_Posting_ref = generalJournalEntry.SubledgerVoucher;
+            lines.Cljo_Period      = generalJournalEntry.NSI_Period;
+            lines.Cljo_year        = generalJournalEntry.NSI_Year;
+            lines.NSI_DailyRunId   = _runId;
+
+            lines.insert();
+        }
+    }
+}
+
+Number SeqModule Class 
+
+
+
+
+
+                  
