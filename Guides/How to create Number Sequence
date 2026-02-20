@@ -1,0 +1,54 @@
+Create a new module class as NSI_NumberSeqModule and extends it with the NumberSeqApplicationModule
+
+internal final class NSI_NumberSeqModule extends NumberSeqApplicationModule
+{
+    public static NSI_NumberSeqModule construct()
+    {
+        return new NSI_NumberSeqModule();
+    }
+
+    public NumberSeqModule numberSeqModule()
+    {
+        return NumberSeqModule::Ledger;
+    }
+
+    protected void loadModule()
+    {
+        NumberSeqDatatype dataType = NumberSeqDatatype::construct();
+
+        dataType.parmDatatypeId(extendedTypeNum(NSI_DailyRunId));
+        dataType.parmReferenceHelp(literalStr("@NSI:DailyRunId"));
+        dataType.parmWizardIsContinuous(true);
+        dataType.parmWizardIsManual(NoYes::No);
+        dataType.parmWizardFetchAheadQty(1);
+        dataType.parmWizardIsChangeDownAllowed(NoYes::No);
+        dataType.parmSortField(1);
+        dataType.addParameterType(NumberSeqParameterType::DataArea, true, false);
+
+        this.create(dataType);
+    }
+
+    /// <summary>
+    /// Number sequence module for Daily run id.
+    /// </summary>
+    /// <param name="numberSeqModuleNamesMap">ModuleNames</param>
+    [SubscribesTo(classStr(NumberSeqGlobal), delegateStr(NumberSeqGlobal, buildModulesMapDelegate))]
+    public static void NumberSeqGlobal_buildModulesMapDelegate(Map numberSeqModuleNamesMap)
+    {
+        NumberSeqGlobal::addModuleToMap(classNum(NSI_NumberSeqModule), numberSeqModuleNamesMap);
+    }
+
+    public static NSI_DailyRunId GetNewDailyRunId()
+    {
+        NumberSequenceReference numSeqRef =
+            NumberSeqReference::findReference(extendedTypeNum(NSI_DailyRunId));
+
+        return NumberSeq::newGetNum(numSeqRef).num();
+    }
+}
+
+
+After the Code Development then I should build and open FNO and go to 
+Organisation >> NumberSequence >> Generate it .
+
+ 
