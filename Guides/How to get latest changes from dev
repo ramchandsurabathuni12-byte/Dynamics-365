@@ -1,0 +1,7 @@
+>> Commit the changes to the feature 
+>> step 1 :: give the description that was developed.
+>> step 2 :: Commit all to local branch. (Out put -- dev to local successful)
+>> step 3 :: select dev at right bottom to update the data.
+>> step 4 :: fetch the data by clicking the first down arrow at top right corner.
+>> step 5 :: initiate the pull by clicking the second down arrow at top right .
+>> step 6 :: go to git menu and 
