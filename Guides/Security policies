@@ -1,0 +1,22 @@
+We need to create query class first before we create a Security policy 
+To create the Query 
+>> Select AddNewItem >> DataModel >> Query >> Give the name to it.
+>> Drag the table which we are creating on to the DataSource
+>> Properties :- set the Dynamic Fields property to >> NO 
+                 Add the Filed to the Fields List and Drag the same feild on to the RangesNode.
+                 change the value property of the rangenode to According.
+>> Save and close
+
+To Create the Security policy 
+>> Add the NewItem and select the security and Security Policy from the left hand side.
+>>Properties :- set label to it.
+                give the table name as the primary table property
+                query property give it the Policy Name
+                UseNotExistJoin to NO
+                Constraines Table to Yes 
+                Operation as Select 
+Create a security role and in the property of Security Policy 
+               set context type to RoleName
+               set the Role Name
+               Set the Enabled Property to Yes.
+
