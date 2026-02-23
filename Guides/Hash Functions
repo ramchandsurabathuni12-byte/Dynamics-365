@@ -1,0 +1,16 @@
+The Hash Functions as many Methods in it 
+It provides methods to:
+>> Generate MD5 hashes
+>> Generate SHA1 hashes
+>> Generate SHA256 hashes
+>> Generate HMAC (keyed hash)
+>> Convert between string ↔ byte array ↔ base64
+
+Generate MD5 hashes :-
+ >> HashFunctions::computeMD5Hash(str _input)
+ >> Creates 128 MD5 hasehes value
+ >> Returns Hex string value (or) Base 64
+Generate SHA1 hashes :-
+ >> HashFunctions::computerSHA1hash(str _input)
+ >> Creates 160-bit hash
+ >> More secure than MD5
