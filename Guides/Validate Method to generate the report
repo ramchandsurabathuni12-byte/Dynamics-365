@@ -1,0 +1,15 @@
+public boolean validate()
+{
+boolean ret = true;
+TransDate TodayDate = DateTimeUtil::getToday(DateTimeUtil::getUserPreferredTimeZone());
+NSI_DailyAggregatedPostedDataHeader header = NSI_DailyAggregatedPostedDataHeader::findByTransDate(todayDate);
+
+if(header.RecId && (header.IntegrationStatus == NSIIntegrationstatus::ReadyForAFAH ||header.IntegrationStatus == NSIIntegrationStatus::ReadyForValidation))
+{
+ret = checkFailed("label");
+}
+return ret;
+}
+
+
+// This method is to generate the report only once based on the Date once it is generated then it notify's an error  messgae to us that the file is already exists and should sent to the AFAH
