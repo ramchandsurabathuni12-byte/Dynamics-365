@@ -1,0 +1,17 @@
+Public static NSI_DailyAggregatedPostedDataHeader Find(fieldName buffer, boolean _forUpdate = false)
+{
+NSI_DailyAggregatedPostedDataHeader header;
+if(_runId)
+{
+if(_forUpdate)
+{
+header.selectForUpdate(true);
+}
+select firstonly forupdate header 
+ where header.TransDate == _transDate;
+}
+return header;
+}
+
+
+In D365FO we can write only one Find method on the table level and if we need to write more Find Methods then we need to change the method as finfByTransDate or something else .
