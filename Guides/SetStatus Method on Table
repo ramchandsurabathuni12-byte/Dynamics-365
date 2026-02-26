@@ -1,0 +1,9 @@
+public static void setStatus(NSI_DailyRunId _runId, NSIIntegrationStatus _status)
+{
+NSI_DailyAggregatedPostedDataHeader  header = NSI_DailyAggregatedPostedDataHeader::find(_runId,true);
+
+ttsbegin;
+header.IntegrationStatus = _status;
+header.update();
+ttscommit;
+}
