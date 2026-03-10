@@ -1,0 +1,102 @@
+To turn off the TFVC repositories creation  we need to disable the button 
+path to disable >> Azure Devops >> Organization Settings >> Repos >> Repositories >> click the button to on (Disable the Creation of TFVC repositories).
+
+
+Git Repository Creation
+
+>> When it comes to creating a new Git repository, there are two main options 1. New Repository 2. Import Repositary
+
+
+Using the GIT
+
+1. Connect to the Project and Clone the Repository
+
+First, connect to your project and clone the repository to your local environment.
+From the screen below, ensure that your repository is located in the correct directory. If it’s not, configure the path to your preferred location.
+Once everything is set, click Clone to start the process.
+
+2. Create Branch/es
+
+From the drop-down list, select the New Branch option.
+Enter a name for your branch and click the Create button.
+If you’ve selected the Checkout branch option (like I have), it will switch to the newly created branch, create it, and restore the necessary files.
+
+3. Push the New Branch
+
+After creating the new branch, push it to the remote repository to make it available for others.
+Ensure that the branch is selected, then use the Push option to upload it to your remote Git repository.
+
+4. Create Symbolic Link to Your Packages Local Directory
+
+Open Command Prompt.
+Navigate to the K:\AOSServices\PackagesLocalDirectory folder.
+Run the following command to create the symbolic link. "mklink /d <PathToPackagesLocalDirectory> <PathToGitFolder>"
+You’ll need to repeat this process for each of your models individually.
+You can refer to the sample in the screenshot below for guidance.
+
+***
+  Alternative Methods for Reflecting Your Packages Local Directory
+There are a few ways you can reflect your Packages Local Directory, but I’ve chosen a specific method to avoid disrupting the standard process. Below are some alternatives and the reasons why I believe my approach is more effective:
+
+1. Create a .git Folder under Your PackagesLocalDirectory
+As far as I know, you can create a .git folder directly under your PackagesLocalDirectory folder, which would allow it to start using that directory for repos. However, I don't think this is the best option, and here’s why:
+
+Devbox Upgrades: If you continue using a development box with multiple upgrades over time, this approach might cause issues with versioning.
+Retail Projects: For retail projects, you'd need to map another location, adding complexity.
+Multiple gitignore Files: You’d be required to create multiple .gitignore files to exclude unnecessary files from being tracked in each repository, which can quickly become cumbersome.
+
+2. Change the Metadata Folder in the Web.config File
+Instead of using a symbolic link, you can modify the Metadata folder path in the web.config file. Here’s the line you need to change:
+
+<add key="Aos.MetadataDirectory" value="K:\AosService\PackagesLocalDirectory" />
+This method is more in line with standard processes and avoids potential issues with the other options.
+***
+
+5. Code Changes and Check-in
+Open the solution in Visual Studio and navigate to the first class in your Solution Explorer.
+Make a simple change—such as adding a single comment line to the code—and save it.
+Also, include a .gitignore file under your repository to ensure unnecessary files aren’t tracked.
+
+Once these changes are made, you should see them listed in your Git Changes tab. Review the changes to confirm that they are correct, and once you're satisfied, proceed with Commit All.
+
+Article content
+Git Changes
+After committing your changes locally, don’t forget to push them to the remote repository. Until you hit Push, the changes won’t reflect on the remote branches.
+
+6. Pull Request Approval and Completion Process
+
+1. Create a Pull Request (PR). 
+
+ After committing your changes to the repository, navigate to your Azure DevOps. 
+
+ Create a new pull request from your the latest push or Pull request section.
+
+ Provide a clear description of the changes made in the PR to help reviewers understand the context.
+
+
+
+Article content
+New PR
+2.  Review Process
+
+ The pull request will be reviewed by the designated team members or stakeholders. Reviewers will check the code, suggest changes, and approve the PR once everything looks good.
+
+3. Address Feedback
+
+ If feedback is provided, make necessary code changes and update the PR with the new commits. This process may continue until the pull request is approved.
+
+4. Approval and Merge
+
+ Once all feedback is addressed and the pull request is approved, merge the changes into the target branch. Depending on your setup, the merge may be automatic or require manual intervention.
+
+5. Complete the PR
+
+ After merging, mark the pull request as completed to finalize the process.
+
+If necessary, delete the feature branch to keep the repository clean.
+
+
+
+Article content
+Complete PR
+Branching strategies depend heavily on how you want to structure your workflow. In my projects, I've created with long-lived branches, similar to TFVC( Master, Dev, Main, Release)
