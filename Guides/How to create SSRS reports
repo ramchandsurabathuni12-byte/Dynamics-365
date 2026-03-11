@@ -1,0 +1,116 @@
+we need to follow the 6 steps to generate the report
+1. Create a Temp Table 
+  Properties >> Label
+             >> Create Rec Id Index == Yes
+             >> Table Type == TempDb
+             >> Name == (NSI_EmployeeReportTmp) for example
+Add the fields to the table fields node 
+
+2. Create a Contract class 
+   use the DataContarct attribute
+
+[DataContract]
+class NSI_EmployeeReportContract
+{
+    FromDate fromDate;
+    ToDate   toDate;
+
+    [DataMember]
+    public FromDate parmFromDate(FromDate _fromDate = fromDate)
+    {
+        fromDate = _fromDate;
+        return fromDate;
+    }
+
+    [DataMember]
+    public ToDate parmToDate(ToDate _toDate = toDate)
+    {
+        toDate = _toDate;
+        return toDate;
+    }
+}
+
+
+3. Create a Dp Class 
+[SrsReportParameterAttribute(classStr(NSI_EmployeeReportContract))]
+the calss should extend with the SRSReportDataProviderBase
+
+[SrsReportParameterAttribute(classStr(NSI_EmployeeReportContract))]
+class NSI_EmployeeReportDP extends SRSReportDataProviderBase
+{
+    NSI_EmployeeReportTmp employeeTmp;
+
+    [SrsReportDataSetAttribute(tableStr(NSI_EmployeeReportTmp))]
+    public NSI_EmployeeReportTmp getEmployeeTmp()
+    {
+        return employeeTmp;
+    }
+
+    public void processReport()
+    {
+        employeeTmp.clear();
+        employeeTmp.NSI_EmployeeID   = "1001";
+        employeeTmp.NSI_EmployeeName = "Ram";
+        employeeTmp.NSI_Department   = "finance";
+        employeeTmp.NSI_JoiningDate  = today();
+        employeeTmp.NSI_Salary       = 70000;
+        employeeTmp.insert();
+
+        employeeTmp.clear();
+        employeeTmp.NSI_EmployeeID   = "1002";
+        employeeTmp.NSI_EmployeeName = "ishan";
+        employeeTmp.NSI_Department   = "IT";
+        employeeTmp.NSI_JoiningDate  = today() - 10;
+        employeeTmp.NSI_Salary       = 80000;
+        employeeTmp.insert();
+    }
+}
+
+4. Create a Controllere Class 
+ extends SrsReportRunController
+
+class NSI_EmployeeReportController extends SrsReportRunController
+{
+    public static void main(Args _args)
+    {
+        NSI_EmployeeReportController controller = new NSI_EmployeeReportController();
+
+        controller.parmReportName(ssrsReportStr(NSI_EmployeeReport, Report));
+        controller.parmArgs(_args);
+        controller.startOperation();
+    }
+}
+
+5. Create a Report
+>> Add new dataset  by right clicking the dataset node
+properties 
+Name == 
+Data source type == Report Data Provider
+Query == select the dp class name and select all the fields 
+
+>> Add new Design by rIght clicking on the Design Node 
+prperties 
+Name == 
+>> Add new table to the new design created before 
+ step 1 >> right click 
+ step 2 >> Add Table 
+ properties
+name == 
+dataset == EmployeeReportDataset(dataset created in the dataset node)
+
+6.Create a MenuItem
+
+Create an Output MenuItem for the controller class 
+properties 
+name == 
+object == controller class name 
+object type == class
+
+7.Build the Project >> Right click the project and build it >> once build is success without any erorrs 
+8. Deploy the report >> Right click on the report and click deploy or deploy reports 
+
+
+>>> then set controller class as the start object then the report will be generated .
+
+
+ 
