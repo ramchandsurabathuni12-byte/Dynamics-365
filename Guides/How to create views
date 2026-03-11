@@ -1,0 +1,9 @@
+Go to Data model and Click View and add the view
+open the designer of the View.
+>> open view metaData >> Data source >> right click add new data source 
+>> add fields to fields node 
+>> add fields to fieldsGroup
+Build and check there are no errors
+create a form add the datasource with the view and add grid and add the fields to grid and and necessary properties  
+
+set the form as start as object and make it run.
