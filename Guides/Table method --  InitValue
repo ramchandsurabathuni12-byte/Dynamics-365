@@ -1,0 +1,8 @@
+initValue()          --  Used to give default values to the fields.
+syntx :- 
+public void initValue()
+{
+    super();
+    // write default values here(this.fieldname = value to deafult;)
+}
+
