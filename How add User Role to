@@ -1,0 +1,9 @@
+In LCS go to 
+
+System Administration >> Security >> Security configuration >> Roles >> We can check the Privileges we created here with oue user role name .
+
+To add user roles to the Mapping client ID  the navigation is 
+
+System adminstration >> users >> users >> add the role under the USERs role .
+
+get the client id from the postman.
