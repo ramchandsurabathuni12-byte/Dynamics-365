@@ -1,0 +1,17 @@
+modifiedField()      --  Used when one field is changed and you want to update another field automatically.
+syntax :-
+public void modifiedField(FieldId _fieldId)
+{
+    super(_fieldId);
+
+    switch (_fieldId)
+    {
+        case fieldNum(NSICustomerFeedback, CustAccount):
+            if (this.CustAccount)
+            {
+                this.FeedbackText = strFmt("Feedback for customer %1", this.CustAccount);
+            }
+            break;
+    }
+}
+
