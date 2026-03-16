@@ -1,0 +1,25 @@
+validateWrite()      --  Used to validate the whole record before saving. -- It runs before save and Update 
+syntax:-
+public boolean validateWrite()
+{
+    boolean ret;
+
+    ret = super();
+
+    if (ret && !this.FeedbackId)
+    {
+        ret = checkFailed("Feedback Id is mandatory.");
+    }
+
+    if (ret && !this.CustAccount)
+    {
+        ret = checkFailed("Customer account is mandatory.");
+    }
+
+    if (ret && !this.FeedbackText)
+    {
+        ret = checkFailed("Feedback text is mandatory.");
+    }
+
+    return ret;
+}
