@@ -1,0 +1,52 @@
+insert()             --  Used when you want custom logic during record insertion.
+syntax :-
+public void insert()
+{
+    if (!this.FeedbackDate)
+    {
+        this.FeedbackDate = today();
+    }
+
+    super();
+}
+
+update()             --  Used when you want logic during update of an existing record.
+syntax:-
+public void update()
+{
+    if (!this.FeedbackDate)
+    {
+        this.FeedbackDate = today();
+    }
+
+    super();
+}
+
+delete()             --  Used when you want to control or restrict deletion.
+syntax:-
+public void delete()
+{
+    info(strFmt("Deleting feedback %1", this.FeedbackId));
+
+    super();
+}
+
+validate Delete()    --  Used to check whether record is allowed to delete.
+syntax:-
+public boolean validateDelete()
+{
+    boolean ret;
+
+    ret = super();
+
+    if (ret && this.Rating == 5)
+    {
+        ret = checkFailed("Records with rating 5 cannot be deleted.");
+    }
+
+    return ret;
+}
+
+find()               --  This is not exactly an override, but it is very commonly added to custom tables.
+exist()              --  Checks whether a record exists.
+modifiedFieldValue() --  
