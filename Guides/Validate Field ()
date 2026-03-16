@@ -1,0 +1,31 @@
+validateField()      --  Used to validate one specific field when user enters or changes it.
+syntax :-
+public boolean validateField(FieldId _fieldIdToCheck)
+{
+    boolean ret;
+
+    ret = super(_fieldIdToCheck);
+
+    if (ret)
+    {
+        switch (_fieldIdToCheck)
+        {
+            case fieldNum(NSICustomerFeedback, Rating):
+                if (this.Rating < 1 || this.Rating > 5)
+                {
+                    ret = checkFailed("Rating must be between 1 and 5.");
+                }
+                break;
+
+            case fieldNum(NSICustomerFeedback, FeedbackId):
+                if (!this.FeedbackId)
+                {
+                    ret = checkFailed("Feedback Id cannot be blank.");
+                }
+                break;
+        }
+    }
+
+    return ret;
+}
+
