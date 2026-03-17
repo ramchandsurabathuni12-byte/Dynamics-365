@@ -1,0 +1,27 @@
+A batch job is a process that runs on the server in the background instead of running immediately in the user session. 
+It is useful for long-running or repetitive work, such as generating reports, updating records in bulk, sending integration data, or cleaning old logs. 
+Batch jobs can run once, run on a schedule, and be monitored from the Batch jobs pages.
+
+when do we use the batch jobs 
+>> the process takes time
+>> many records must be processed
+>> the user should not wait on the form
+>> the process must run daily/hourly/weekly
+>> the job should run at night or off-hours
+>> the work should be retried or monitored centrally.
+
+There are two common ways you’ll see in D365FO.
+>> Runbase Batch Job
+1.older and simpler framework
+2.We need to extend 
+3.typical methods 
+-- main()
+-- dialog()
+-- getFromDialog()
+-- pack()
+-- unpack()
+-- run()
+-- canGoBatch()
+-- description()
+>> SysOperation FrameWork
+>> 
