@@ -1,0 +1,31 @@
+Event Handlers :-
+>> An Event Handler is a separate class method that runs when a specific event happens.
+>> Instead of writing all logic directly inside the table, form, or class, you attach logic to an event.
+>> It is used to keep customization clean and separate.
+You commonly use Event Handlers on:-
+>> Tables
+>> Forms
+>> Form controls
+>> Data sources
+>> Classes
+
+Business Event :-
+A Business Event is used when something happens in D365FO and you want to inform an external system.
+Business Events are mainly for integration.
+D365FO raises the event, then external systems can subscribe to it.
+
+Where do we use Business Events:-
+Use Business Events when D365FO needs to notify :
+>> Logic Apps
+>> Power Automate
+>> Azure Event Grid
+>> middleware
+>> third-party applications
+>> external ERP/reporting/integration platforms
+
+Use Event Handler if:
+ >> the action should happen inside D365FO
+
+Use Business Event if:
+ >> the action should happen outside D365FO
+
